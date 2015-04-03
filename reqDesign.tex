@@ -69,54 +69,55 @@ Our solution involves the creation of two Android applications, thus the require
         \textit{The system should fit within the standards and design language of the Android operating system} \newline
         [Both Systems] | Non-functional
         
-    \item[S2] \textbf{Secure Communications} \newline
+    \item[S2] \textbf{Rewards Browsing} \newline
+        \textit{The user should be able to easily browse their rewards available} \newline
+        [Loyalty Reader] | Functional
+
+    \item[S3] \textbf{Badges} \newline
+        \textit{Users should be able to collect badges upon completing certain goals} \newline
+        [Loyalty Reader] | Functional
+
+    \item[S4] \textbf{Secure Communications} \newline
         \textit{NFC Communications between devices should be encrypted} \newline
         [Both Systems] | Functional
 
-    \item[S3] \textbf{Rewards Browsing} \newline
-        \textit{The user should be able to easily browse their rewards available} \newline
-        [Loyalty Reader] | Functional
-        
-    \item[S4] \textbf{Levelling System} \newline
-        \textit{Users should be able to level up each of their loyalty schemes independently (20 - gold, 50, platinum)} \newline
-        [Loyalty Reader] | Functional
-        
     \item[S5] \textbf{Level-Restrictions} \newline
         \textit{Rewards should have a minimum-level required in order to claim} \newline
         [Loyalty Reader] | Functional
 
-    \item[S6] \textbf{Badges} \newline
-        \textit{Users should be able to collect badges upon completing certain goals} \newline
+    \item[S6] \textbf{Levelling System} \newline
+        \textit{Users should be able to level up each of their loyalty schemes independently (20 - gold, 50, platinum)} \newline
         [Loyalty Reader] | Functional
+        
 \end{description}
 
 The `should have's' represent features which should be included if the system if time permits. Generally these requirements add a layer of usability and engagement to the system; as such, most of the gamification implementation is defined here.
 
 \subsubsection{Could Have}
 \begin{description}[leftmargin=!,labelwidth=\widthof{\bfseries Medium}]
-    \item[C1] \textbf{Branding} \newline
-        \textit{The system could provide deep customisation options for each scheme} \newline
-        [Loyalty Manager] | Functional
-        
-    \item[C2] \textbf{Personalisation} \newline
-        \textit{The system could allow users to customise the appearance of their profile} \newline
-        [Loyalty Reader] | Functional
-        
-    \item[C3] \textbf{Passive Card Emulation} \newline
+    \item[C1] \textbf{Passive Card Emulation} \newline
         \textit{The system could allow passive host card emulation} \newline
         [Loyalty Reader] | Functional
-        
-    \item[C4] \textbf{Restricted Schemes} \newline
-        \textit{The system could allow for account-specific schemes (only authorised users have access to the scheme)} \newline
-        [Both Systems] | Functional
-        
-    \item[C5] \textbf{Internet-Free Stamping} \newline
+
+    \item[C2] \textbf{Branding} \newline
+        \textit{The system could provide deep customisation options for each scheme} \newline
+        [Loyalty Manager] | Functional
+
+    \item[C3] \textbf{Internet-Free Stamping} \newline
         \textit{Users could have the ability to gather stamps without being connected to the internet (facilitated by the Manager)} \newline
         [Loyalty Manager] | Functional
         
-    \item[C6] \textbf{Multiple Device Support} \newline
+    \item[C4] \textbf{Multiple Device Support} \newline
         \textit{Users could be able to login and use multiple devices seamlessly} \newline
         [Loyalty Reader] | Functional
+        
+    \item[C5] \textbf{Personalisation} \newline
+        \textit{The system could allow users to customise the appearance of their profile} \newline
+        [Loyalty Reader] | Functional
+        
+    \item[C6] \textbf{Restricted Schemes} \newline
+        \textit{The system could allow for account-specific schemes (only authorised users have access to the scheme)} \newline
+        [Both Systems] | Functional
         
     \item[C7] \textbf{Transaction History} \newline
         \textit{The system could have a transaction history to allow users to see their recent activity} \newline
@@ -150,7 +151,7 @@ Turning our attention to the design, here we present the system, matching the re
 
 
 \subsection{The Three Components of the System}
-As mentioned earlier, the proposed system involves two separate Android applications. However, in order to meet functional requirements M1, M4, S4, S6, C4 and C6 a database will need to be introduced in order to inter-connect user accounts, along with any relevant data (i.e. loyalty schemes, stamps and badges). Furthermore, a database is also useful from a security and continuity standpoint. For instance, backing-up stamps and schemes allows users to sync their accounts between phones, as well as preventing `abusive' users from modifying the local variables for stamp count.
+As mentioned earlier, the proposed system involves two separate Android applications. However, in order to meet functional requirements M1, M4, C4 and C6 a database will need to be introduced in order to inter-connect user accounts, along with any relevant data (i.e. loyalty schemes, stamps and badges). Furthermore, a database is also useful from a security and continuity standpoint. For instance, backing-up stamps and schemes allows users to sync their accounts between phones, as well as preventing `abusive' users from modifying the local variables for stamp count.
 
 \subsection{Modeling The Interaction}
 The key design challenge of the system is to ensure seamless and correct communications via NFC between each of the three system modules. As outlined in the literature survey, there are several modes that NFC can adopt~\cite{MODESOFOPERATION}, each changing the device's role as part of the interaction. In this case, Host Card Emulation (HCE) and NFC Readers can be setup in different configurations to facilitate these communications. Two such configurations were considered - Loyalty Manager using HCE and Loyalty Reader using HCE (Fig. \ref{fig:dArches}). The difference between these configurations is small; however they each have distinct connotations. A discussion on their implications follows:
@@ -191,65 +192,207 @@ The benefits and drawbacks of this configuration are:
 \subsubsection{Chosen Model}
 \emph{Loyalty Reader using HCE} was selected on the merit of its positives. Primarily, not requiring internet access from the customer, the ability to collect stamps without having the application open and its emphasis on security. On the other hand, it makes the implementation trickier, requiring more logic to support the two-way communications. None-the-less, we expect that this model will ultimately benefit the system by making it easier to use and understand for users.
 
+\subsubsection{User Feedback}
+Requirement M7 identifies the need for user feedback in both applications when stamping. Mobile operating systems provide several design patterns to accommodate interaction feedback, for instance: audio, notifications and haptic/vibration. For the Loyalty Reader, notifications were selected as the \textbf{primary} method as users may want to keep their phones on silent. Within the Loyalty Manager, responses can be presented as a `toast'\cite{toast}\footnote{A small popup message in Android that provides simple feedback}. Moreover, we integrate an audible sound whenever two NFC devices make contact; however users will be able to mute this feature if the device is placed on silent. 
+
 \subsection{Design Methodology}
-In order to develop the designs for the system components, a user-centered design approach was taken for each iteration. The initial wireframe was mocked-up from android design heuristics as a design language.
+In order to develop the designs for the system components, a user-centered design\cite{usercentereddesign} approach was taken for each iteration. The initial wireframe was mocked-up from Android design heuristics as a design language.
 \subsubsection{Design Language}
 One of Neilson's heuristics is `Consistency and Standards'~\cite{jakob}, in this case meaning that the solution should follow the platform conventions and design of the Android operating system. This satisfies the requirement S1. If this heuristic is met, users will feel more comfortable with the system as it will feel familiar to use. The latest standards outlined by Google describe \emph{Material Design}~\cite{materialDesign}, a visual design language to be used with the new \emph{Android Lollipop} operating system with a goal to:
 \begin{quote}
     \textit{``Develop a single underlying system that allows for a unified [user] experience across platforms and device sizes''}~\cite[Introduction]{materialDesign}
 \end{quote}
 
-We present the designs to potential users within our target market (Age 16-40). Feedback was captured, analysed and incorporated into the next iteration. In the interest of time, only two iterations were incorporated for each system.
+We present the designs to potential users within our target market (Age 16-40). Feedback was captured, analysed and incorporated into the next iteration. In the interest of time, only two iterations were incorporated for the Loyalty Reader and one for the Loyalty Manager.
 
+\newpage{}
 \subsection{Design Process - Loyalty Reader}
-
 \subsubsection{Wire-Frame Mockups}
-INSERT ORIGINAL DRAWN MOCKUPS HERE
+The Wire-Frames were developed on paper using the Material Design guidelines discussed earlier (Fig. \ref{fig:wireframe1}). An analysis of the design decisions follows: 
 \begin{figure}[H]
  \centering
-  \includegraphics[width=0.24\textwidth]{img/wireframeMockup.png}
-   \includegraphics[width=0.24\textwidth]{img/wireframeMockup.png}
-    \caption{Prototype}
+  \includegraphics[width=0.26\textwidth]{img/wireframeMockup.png}
+    \includegraphics[width=0.26\textwidth]{img/wireframeMockup2.png}
+    \includegraphics[width=0.26\textwidth]{img/wireframeMockup3.png}
+    \caption{The initial wireframe mockup for the Reader using the Material Design guidelines}
+         \label{fig:wireframe1}
 \end{figure}
+
+\begin{enumerate}
+  \item `Pips' are a common design pattern on mobile devices. They serve as a page indicator and afford swiping on the screen. In this case, users can see all of their loyalty schemes in this page and can swipe between them. 
+  \item The idea of having `loyalty cards' was taken from the real world. Businesses may be able to customise the graphic on the card.  Cards on mobile screens also afford flipping over for more information - within mobile applications this is done via a tap, meaning users can get details of a loyalty scheme by tapping the card.  
+  \item Floating Action Buttons (FAB) are special buttons used to present users with the primary action of the application. In this case it is a stamp button that takes users to the stamp screen.
+  \item A list of available rewards for the users, notifying them which rewards are available.
+  \item A stamp screen to notify the users to tap their device onto the reader. Within this design, all NFC interactions are done with this screen open; however this screen may not be needed using the Loyalty Reader using HCE interaction model
+\end{enumerate}
+
+\subsubsection{Feedback For Next Iteration}
+\begin{itemize}
+  \item \textit{``If it is so important, shouldn't the stamp button should be in all pages, not just the home page?''}
+  \item \textit{``How will gamification work in the design?''}
+\end{itemize}
+
+Feedback for this design was limited as paper-based mockups proved difficult to communicate links between the actions; Nonetheless, these points were considered for the next iteration.
+
 
 \subsubsection{Iteration 1 - Mockup}
-
+The first iteration was a near direct translation of the paper wire-frame into a navigable mockup (Fig. \ref{fig:wireframe2}), with a few small changes following previous feedback. A dedicated loyalty scheme page was introduced to track potential gamification concepts, along with the addition of a stamp button on every page.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=0.24\textwidth]{img/loginMockup.png}
-   \includegraphics[width=0.26\textwidth]{img/MainMockup.png}
-    \caption{Prototype}
+  \includegraphics[width=0.29\textwidth]{img/MainMockup.png}
+   \includegraphics[width=0.27\textwidth]{img/firstiteration1.png}
+    \includegraphics[width=0.27\textwidth]{img/firstiteration2.png}
+    \caption{A mockup of the wireframe incorporating suggestions from last iteration}
+	\label{fig:wireframe2}
 \end{figure}
+
+\begin{enumerate}
+  \item A dedicated loyalty scheme page for the user to explore the current loyalty scheme. These may be customisable for the business. Potential gamification methods, such as levels and badges would live here if implemented.
+\end{enumerate}
+
+\subsubsection{Feedback For Next Iteration}
+\begin{itemize}
+  \item \textit{``If I have many loyalty schemes, It feel sluggish to scroll through all of them individually. Perhaps have them as a list''}
+  \item \textit{``If I have my own account, there should be a profile page''}
+  \item \textit{``It takes too many clicks to get to the rewards''} [2 clicks after finding scheme]
+    \item \textit{``The stamp button makes me thing I'm only stamping the visible scheme?''} [This was an unintentional consequence of the design]
+     \item \textit{``The app shoulds tell me when I have sufficient stamps to claim a reward''}
+\end{itemize}
+
+ More issues were identified during this iteration as users were able to explore the design on an android device. Nevertheless, feedback clearly suggested that this design was slow, confusing and ultimately - not fit for purpose. Substantial changes had to be made.
 
 \subsubsection{Iteration 2 - Final Design}
+In order to remediate some of the design problems identified with the previous feedback, a very different approach had to be taken with the design - as presented in (Fig. \ref{fig:wireframe3}). In order to present clarity, several UI aspects had to be removed; for instance the stamp button was removed and is to be replaced with instructions on how to stamp upon logging-in for the first time.
+
 \begin{figure}[H]
  \centering
-  \includegraphics[width=0.32\textwidth]{img/moremock2.png}
-   \includegraphics[width=0.32\textwidth]{img/finalmock.png}
-    \includegraphics[width=0.32\textwidth]{img/moremock1.png}
-     \caption{Prototype}
+  \includegraphics[width=0.275\textwidth]{img/moremock2.png}
+   \includegraphics[width=0.275\textwidth]{img/finalmock.png}
+    \includegraphics[width=0.275\textwidth]{img/moremock1.png}
+     \caption{The final mockup of the Reader with a tabbed interface to be implemented}
+     \label{fig:wireframe3}
 \end{figure}
 
-\textbf{Overview}
-\subsection{Participatory Design}
-\subsubsection{Need for Study/Problems With Guidelines}
-\subsubsection{Aims}
-\subsubsection{Outline}
-\subsubsection{Results}
+\begin{enumerate}
+  \item A tabbed interface allows switching between different functional areas of an app, therefore making them very useful if functionality can be categorised. Profile, My Schemes and Rewards were chosen as the functional categories. An action button exists visibly on the top right to sync a the users profile (loyalty schemes/rewards etc.) with the server.
+  \item The previous designs did not consider a having a user profile. The profile page aims to provide users a hub that presents them with their current account status. Customisability is also possible here, for instance the ability to add a profile picture, or to choose from a range of personal titles.
+  \item Indicators are a key aspect of Nielson's `visibility of system state' heuristic~\cite{jakob}. A count of available rewards notifies how many claimable rewards the user has; whereas stamp score is a gamification currency which could be used to claim exclusive rewards in the future. 
+  \item A user profile is a prime location to display achieved user badges. For more detail, refer to \textit{(3.3.8 Incorporating Gamification/Persuassion)}
+  \item Solutions we explored in the literature survey implemented loyalty schemes as lists. As a result, the `loyalty card' design from the previous iterations were transformed into bubbles within a grid. Businesses may be able to customize the background of the bubble with their own brand image. By pressing on the bubble, users are able to see the status of the scheme (Fig. \ref{fig:extrinsicmotivation}). Referencing previous feedback, a golden tint represents a loyalty scheme which has sufficient stamps to claim a reward.
+  \item Further facilitating reward discovery, the dedicated rewards tab presents users with \textbf{all} available rewards they can afford with their stamps. This centralisation enforces a single convenient location to claim a reward. 
+\end{enumerate}
 
-\subsection{Database Design}
+\subsubsection{Feedback For Next Iteration}
+\begin{itemize}
+  \item \textit{``There should be more room for businesses to customise their schemes according to their brand''}
+  \item \textit{``Single rewards per loyalty scheme is great, but the design doesn't accommodate multiple rewards very well''}
+\end{itemize}
+
+Eventhough feedback for this iteration will not be implemented in the respects of time, it is important for future work.
+
+\newpage
+\subsection{Design Process - Loyalty Manager}
+\subsubsection{Wire-Frame Mockups}
+As with the Reader, wire-frames were developed on paper using the Material Design guidelines (Fig. \ref{fig:wireframem1}). An analysis of the design decisions follows: 
+\begin{figure}[H]
+ \centering
+  \includegraphics[width=0.9\textwidth]{img/page2.jpg}
+    \caption{The initial wireframe mockup for the Manager using the Material Design guidelines}
+         \label{fig:wireframem1}
+\end{figure}
+
+
+\begin{enumerate}
+  \item Users may manage more than loyalty scheme. As such, there exists a menu in order to select the appropriate scheme.
+  \item The stamp page is designed to be very simple with only two large accessible buttons. Pressing on either should enable the NFC chip in order to distribute a stamp or claim a user reward.
+\end{enumerate}
+
+\subsubsection{Feedback For Next Iteration}
+\begin{itemize}
+  \item \textit{``There should be a way to distribute multiple stamps''}
+  \item \textit{``A log of recent transactions would be useful''}
+  \item \textit{``The interface does not notify what loyalty scheme being stamped''}
+\end{itemize}
+
+As the functionality of this application is simpler than the Reader, better feedback was collected from the wire-frames. Suggestions, along with design patterns from the Reader were incorporated into the next iteration.
+
+\subsubsection{Iteration 2 - Final Design}
+A final design was developed by combining the aesthetic of the final Reader prototype, with the suggestions from the previous wireframe  (Fig. \ref{fig:wireframem1}).
+\begin{figure}[H]
+ \centering
+  \includegraphics[width=0.494\textwidth]{img/readerfinalmock2.png}
+   \includegraphics[width=0.494\textwidth]{img/readerfinalmock1.png}
+     \caption{The final mockup of the Manager with the final aesthetic to be implemented}
+     \label{fig:wireframem2}
+\end{figure}
+
+\begin{enumerate}
+  \item A notifier of the current loyalty scheme, as suggested from previous feedback.
+  \item A counter for the amount of stamps to distribute per tap. To facilitate ease of use, the number of stamps should reset back to one after every interaction. This will prevent any accidental `overstamping' previous customers if the business employee forgets to reset the value.
+  \item The history provides a method of feedback to the employee. Upon all interactions, it should inform progress, successes and other key information regarding the loyalty schemes; however certain granularity had to be chosen. We would 
+\end{enumerate}
+
+\subsubsection{Feedback For Next Iteration}
+\begin{itemize}
+  \item \textit{``The buttons could be bigger like the original design''}
+  \item \textit{``There should exist an option to go back to the select a scheme page''}
+  \item \textit{``Transaction history need a way to be backed up''}
+  %Transaction history PII
+\end{itemize}
+
+Due to limitations of time, this feedback will not be implemented into the system; however as with the Reader, they will be integral to future work. 
+
+
+\newpage
+\subsection{Design Process - Database Design}
+\subsubsection{Entity-Relationship Diagram}
+The design process for the database was somewhat different than the Android applications as there was no user interface aspect involved. Initially, entities were identified for the schema - they were then normalised and translated into an Entity-Relationship Diagram (ERD) (Fig. \ref{fig:erd}).
+
 \begin{figure}[H]
   \centering
-    \includegraphics[width=0.5\textwidth]{img/erd.png}
-      \caption{Entity Relationship Diagram}
-\end{figure}
-\begin{figure}[H]
-  \centering
-    \includegraphics[width=1\textwidth]{img/architecture.png}
-      \caption{Database Model}
+    \includegraphics[width=0.8\textwidth]{img/erd.png}
+      \caption{High-level Entity Relationship Diagram showing connections between different tables}
+      \label{fig:erd}
 \end{figure}
 
+Satisfied with the design, the following features were identified to be reflected as table attributes:
+\begin{itemize}
+  \item \textit{facilitation of the gamification platform}
+  \item \textit{facilitation of scheme tracking/business intelligence}
+\end{itemize}
+
+\newpage
+\subsubsection{Final Database Schema}
+Building upon the initial ERD and incorporating the above features identified into the schema, a final database schema is proposed  (Fig. \ref{fig:finaldb}). 
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=0.8\textwidth]{img/architecture.png}
+      \caption{Final database model to be implemented}
+      \label{fig:finaldb}
+\end{figure}
+
+\subsubsection{Analysis of Final Schema}
+In order to facilitate the gamification platform, we ensure that badges are indepedant from the loyalty schemes, affording the possible creation of unique badges by businesses. Moreover, the \emph{stampsForever} attribute of UserScheme can be used to monitor how often a user visits a business. Leaderboards as gamification are also possible from this field.
+
+\emph{ClaimedAmount} from the Reward table, along with the aforementioned \emph{stampsForever} attribute can be used by businesses to track the popularity of their schemes. This allows them to monitor changes and adapt their schemes accordingly.
+
+\newpage
+\subsection{Incorporating Gamification/Persuassion}
+\subsubsection{Extrinsic Motivation}
+We previously defined the concept of `extrinic motivation' as incentives where motives to enact the task are not related necessarily to that specific behaviour. These are commonly seen in loyalty cards - for instance users may not necessarily want to buy a coffee but want to complete their stamp card. One can argue that stampcards are not only extrinsic motivators, but also are an implementation of Nielson's `match between system and the real world' heuristic. Several solutions we explored in the literature review implemented digital stampcard-like solutions.
+
+Similar to the aforementioned systems we reviewed, a virtual stampcard appearance was integrated into our design (Fig. \ref{fig:extrinsicmotivation}) as we felt it was an effective persuasive method. 
+%affordances/stampbook + extrinsic motivvation + neilson match between world
+\begin{figure}[H]
+ \centering
+  \includegraphics[width=0.40\textwidth]{img/stampcardprogress.jpg}
+     \caption{The loyalty scheme view displaying: reward, current stamps and the amount of stamps left in order to gather the reward}
+     \label{fig:extrinsicmotivation}
+\end{figure}
+\subsubsection{Badges}
+COMING SOON
 \subsection{Naming The Systems}
-
-
+In order to give the system a brand identity, it was named `Stamped' as it emphasises the software's focus on stamping. The `Loyalty Reader' is to be called \emph{Stamped}, whereas the `Loyalty Manager' is to be referred to as the \emph{Stamped Manager}. We hope that with a brand identity, users will be able to empathise and recognise the system better.
 \subsection{Conclusion}
+In this chapter we covered the requirements and design specification for our system `Stamped'. Some of the design challenges were outlined, along with the different iterations that eventually lead to the final designs. The next chapter will cover the issue of implementation.
