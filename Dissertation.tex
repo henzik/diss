@@ -1,16 +1,16 @@
+
 \documentclass[11pt,openright,a4paper]{report}
 %%
 %% This document template assumes you will use pdflatex.  If you are using
 %% latex and dvipdfm to translate to pdf, insert dvipdfm into the options.
 %%
 \include{DissertationDefs}    %% These are the includes required for the doc 
-
+\apptocmd{\thebibliography}{\raggedright}{}{}
 
 \title{Mobile Technologies Supporting Corporate Loyalty Schemes}
 \author{Henrik Stepanyan}
 \date{Bachelor of Science in Computer Science with Honours and Industrial
 Placement\\The University of Bath\\May 2015}
-
 
 \begin{document}
 
@@ -44,6 +44,7 @@ I'll put my abstract here someday...
 
 \tableofcontents
 \listoffigures
+\listoftables
 \newpage
 
 \chapter*{Acknowledgements}
@@ -73,36 +74,33 @@ dissertation the empirical backing it needs.
 
 \chapter{Introduction}
 %% Uncomment this to include a separate tex file wih the introduction contents
-%\include{introduction}
+\include{introduction}
 
 \chapter{Literature \& Technical Survey}
-%\include{litreview}
+\include{litreview}
 
 \chapter{Requirements \& Design}
-%\include{reqDesign}
+\include{reqDesign}
 
 
 \chapter{Implementation}
 \include{Implementation}
 
 \chapter{Evaluation}
+\include{Evaluation}
 
-
-\chapter{Results}
-This is the chapter in which you review the outcomes, and
-critique the outcomes process.  You may include user evaluation here
-too.
+\chapter{Discussion}
+\include{Discussion}
 
 \chapter{Conclusions \& Future Work}
-This is the chapter in which you review the outcomes, and
-critique the outcomes process.  You may include user evaluation here
-too.
+\include{Conclusions}
 
 
 %%
 %% Now we are back to the standard project contents that you should include
 %%
-\bibliography{1bib,2bib,3bib}
+\bibliographystyle{ieeetr}
+\bibliography{bib}
 
 \appendix
 
@@ -111,24 +109,12 @@ too.
 %% these to your own requirements
 %%
 
-%\chapter{Design Diagrams}
-
-%\chapter{User Documentation}
-
-%\chapter{Raw results output}
-
-%\chapter{Code}
-
-%%
-%% NOTE that for this to typeset correctly, ensure you use the pdflatex
-%%      command in preference to the latex command.  If you do not have
-%%      the pdflatex command, you will need to remove the landscape and
-%%      multicols tags and just make do with single column listing output
-%%
-
-\begin{landscape}
-\begin{multicols}{2}
-\end{multicols}
-\end{landscape}
-
+\chapter{Interview Transcript}
+\include{kurtD}
+\chapter{Initial Wireframes}
+\begin{figure}[H]
+ \centering
+  \includegraphics[width=1\textwidth]{img/Page1.jpg}
+     \caption{The initial wireframes for the Stamped system}
+\end{figure}
 \end{document}

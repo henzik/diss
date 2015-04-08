@@ -37,7 +37,7 @@ In order to provide functionality outside of an application, a `service' must be
 Android services must be carefully developed, as reckless design will lead to unwanted battery drain on the device. Fortunately Google provides a template class called \emph{HostApduService} for HCE, ensuring that the service is optimised for power consumption. 
 
 \subsubsection{Distinguishing Actions}
-A standard smartcard cannot tell what exactly is being read from it or when, a similar problem presents itself in the Host Card Service. The HCE service cannot atomically discriminate what message it needs to send, it can only react to an \texttt{onRead} event. To remediate this, we had to temporarily break the object oriented principle of encapsulation by introducing a shared global variable \texttt{NFCMessageType}. The message will allow Stamped Reader to discriminate what type of action we are broadcasting as a smartcard. Two such messages are adopted:
+A standard smartcard cannot tell what exactly is being read from it or when, a similar problem presents itself in the Host Card Service. The HCE service cannot atomically discriminate what message it needs to send, it can only react to an \texttt{onRead} event. To remediate this, we had to temporarily break the object oriented principle of encapsulation by introducing a shared global variable \texttt{NFCMessageType}. The message will allow the Manager application to discriminate what type of action we are broadcasting as a smartcard. Two such messages are adopted:
 \begin{enumerate}
  \item Stamp mode - Broadcasts the user account id
   \item Reward mode - Broadcasts the user account id, the scheme id and the number of stamps to deduct in order to claim that reward
@@ -62,16 +62,16 @@ The \texttt{onRead} function is usually strictly used to send a message to a rea
 \end{figure}
 
 \subsection{NFC Communications}
-Several presentation methods need to be put in place to facilitate NFC communication for our system. The messages being sent are simply hexadecimal plaintext; therefore there needs to be a way to send them in the correct format and carry some meaning to them. Here we demonstrate the principles to enable the Stamped Reader to understand messages.
+Several presentation methods need to be put in place to facilitate NFC communication for our system. The messages being sent are simply hexadecimal plaintext; therefore there needs to be a way to send them in the correct format and carry some meaning to them. Here we demonstrate the principles to enable the Stamped Manager to understand messages.
 
 \subsubsection{Understanding Actions}
 \label{sec:understanding}
-The Stamped Reader must be able to distinguish the types of messages it receives. There are two kinds that it may encounter: A stamp request and a reward claim. We earlier explained two modes on the host card that send differing amounts of information. Likewise, Stamped Reader was setup in order to analyse message content. If only the accountID was received, we know that Stamped Reader needs to provide a stamp, however when is presented with more information, the system recognises that a customer is claiming a reward and deducts the amount of stamps from their account.
+The Stamped Manager must be able to distinguish the types of messages it receives. There are two kinds that it may encounter: A stamp request and a reward claim. We earlier explained two modes on the host card that send differing amounts of information. Likewise, the Manager was setup in order to analyse message content. If only the accountID was received, we know that Stamped Manager needs to provide a stamp, however when is presented with more information, the system recognises that a customer is claiming a reward and deducts the amount of stamps from their account.
 
 \subsubsection{Avoiding the `Beam'}
-Android Beam is a feature of the Android platform to allow peer-peer data exchange over NFC~\cite{androidBeam}. Though it may have its uses (i.e Sending contacts, pictures), it can cause many problems for our system. Primarily, when two devices `tap', the operating system may mistake it for a `Beam' instead of a smartcard. This feature can be seen in (Fig. \ref{fig:androidBeam}); however we draw attention to the message which says `Touch to beam'. When this message appears, any input to the device other than that specific action is blocked. This will naturally clash with the Stamped Reader, which is expecting a host card message instead of a `Beam'
+Android Beam is a feature of the Android platform to allow peer-peer data exchange over NFC~\cite{androidBeam}. Though it may have its uses (i.e Sending contacts, pictures), it can cause many problems for our system. Primarily, when two devices `tap', the operating system may mistake it for a `Beam' instead of a smartcard. This feature can be seen in (Fig. \ref{fig:androidBeam}); however we draw attention to the message which says `Touch to beam'. When this message appears, any input to the device other than that specific action is blocked. This will naturally clash with the Stamped Manager, which is expecting a host card message instead of a `Beam'
 
-To solve this problem, we had to implement tight controls over how the Stamped Reader enables and disables its NFC chip, only enabling the chip whilst the reader is listening for a message from a host card.
+To solve this problem, we had to implement tight controls over how the Manager enables and disables its NFC chip, only enabling the chip whilst the reader is listening for a message from a host card.
 
 \begin{figure}[H]
  \centering
