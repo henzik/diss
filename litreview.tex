@@ -25,10 +25,6 @@ NFC chips can be placed into Card Emulation mode in such a way (ISO 14443)~\cite
 \paragraph{Peer-to-Peer}
 Two powered NFC devices can bidirectionally share information between each other - for instance Bluetooth pairing information.~\cite{ecosystem}. In the case of a business environment, authentication can take place between two devices in the same bidirectional manner~\cite{iso18092} as a form of `secure log-in'.
 
-\subsection{NFC as an Interaction}
-%quick pairing
-%people tap eventhough there is no need
-lorem ipsum
 \clearpage{}
 \subsection{Applications of NFC}
 Wireless communication technologies such as NFC have been around for some time. Many electrical devices with the capacity to communicate already use Wi-Fi, Infrared or Bluetooth; eventually these technologies make their way into modern smartphones and other domestic devices. Due to the openness of the NFC standard, there are a wide plethora of implementations facilitated by the technology:
@@ -81,8 +77,49 @@ The research identified that there was a gap in researching the development of N
 The key limiting factor of NFC for the longest time was the slow adoption rate by businesses and manufacturers. Contactless payment, the predominate form of NFC interaction depended on specific NFC card readers to enable contactless functionality; furthermore we cannot underestimate the amount of effort it takes to introduce a new billing option to a country.
 
 Analytics also show that NFC implementations are very fragmented with no apparent standard protocols~\cite{fragmentednfc}. This can be attributed to two reasons: the openness of the NFC platform encouraging different implementations and businesses wanting their own implementation for their own needs. For instance, in the example of loyalty schemes, each business might have a separate loyalty application which the customer needs to download and setup. These applications allow businesses to perform their own tracking and branding.
-%very short range of NFC makes it difficult to eavesdrop on
-\subsection{QR and NFC}
+\newpage
+\subsection{NFC vs Quick Reference Barcodes}
+\label{sec:NFCvsQR}
+Another technology considered for communication was \emph{Quick Reference (QR) Barcodes} (Fig. \ref{fig:qrcode}). These convey information through a 2D code matrix which can be scanned by a barcode reader or optical camera. A summary follows of the advantages and disadvantages of each technology~\cite{nfcadv}\cite{qradv}:
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=0.15\textwidth]{img/qrcode.png}
+      \caption{An example of a QR code}
+       \label{fig:qrcode}
+\end{figure}
+
+
+\subsubsection{Analysis of QR}
+The advantages (+) and disadvantages (-) of QR are: 
+\begin{description}[leftmargin=!,labelwidth=\widthof{\bfseries small}]
+	\item[+] QR Codes can be cheaply printed on paper. No tags need to be involved.
+	\item[+] Smartphones need only a camera and QR Reader application to interact with the technology
+	\item[+] They are generally seen as more secure as they exist outside of a mobile operating system, making them less vulnerable to exploitations.  
+	\item[---] Reading a QR code is a much slower interaction as it requires an actor to have a camera app open to scan the barcode. 
+	\item[---] QR code scanning is generally seen as one-way interactions as barcode readers have no way to communicate with the barcode (physical/digital).
+	\item[---] QR codes cannot hold dynamic information. In order to change the sent message, a new barcode will have to be generated
+\end{description}
+
+\newpage
+\subsubsection{Analysis of NFC}
+The advantages (+) and disadvantages (-) of NFC are: 
+\begin{description}[leftmargin=!,labelwidth=\widthof{\bfseries small}]
+    \item[+] NFC Interactions are much simpler and faster as they only involve a tap
+    \item[+] NFC chips can dynamically change their contents without having to generate a new tag/device
+    \item[+] NFC affords compatibility with many standard smartcard readers
+    \item[+] Two-way interactions are possible, where both NFC chips can communicate with each other in duplex. 
+    \item[---] Requires NFC enabled smartphone in order to operate
+    \item[---] cannot simply be `printed out on paper' -- an NFC tag must be purchased
+    \item[---] very short range of NFC makes it difficult to eavesdrop on; nonetheless it is still possible
+\end{description}
+
+\subsubsection{Research}
+Many researchers~\cite{qr1}\cite{qr2}\cite{nfc1}\cite{nfc2} provide conflicting opinions regarding which of these technologies should be mass adopted. As NFC chips have taken a substantial amount of time to be integrated into modern smartphones, QR codes were embraced by many businesses as many smartphones can display/read them. On the other hand, the commonality of NFC in modern smartphones narrows this gap in availability. Some solutions have chosen to overcome this gap by creating hybrid systems that support both technologies~\cite{NFCandQR}
+
+\subsubsection{Justification for NFC}
+For our system, speed over availability is needed as we want the interaction to be at least as fast as stamping a paper card. A system like this cannot afford to complicate such a simple interaction; therefore we confirm the viability of NFC as our chosen communication technology. 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                 GAMIFICATION SECTION
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -121,15 +158,57 @@ It can be argued that the two inspirations (sports vs. video games) present us w
 Although elements of gamification can be found in a variety of systems, mobile technologies have seen biggest boom in gamified systems. As mentioned earlier, a major contributer to this boom is the prevalence of cheap enabling technologies such as bluetooth, and GPS - all of which can be found on a modern smartphone. In 2009, Foursquare was one of the first successful gamified mobile applications; allowing users to ``check-in'', collect badges and receive recommendations on where to go next~\cite{zichermann2011gamification}. Five years later, Gartner predict that 70\% of the top 2000 companies would have a gamified application by the end of 2014.~\cite{gartner70}
 
 \subsection{Areas of Research}
-Areas of research of gamifcation using certain elements...
-\clearpage{}
+A survey was done of academic papers in 2014 analysing gamification~\cite{gamificationlit}. 24 Papers were gathered that involved empirical studies to answer the question `does gamification work?'. Papers were broken down by gamification elements (shown in Table \ref{tab:game1}) and system purpose (shown in Table \ref{tab:game2})
+
+\begin{table}[h]
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{\begin{tabular}[c]{@{}l@{}}Motivational\\ Affordance\end{tabular}} & \textbf{Papers Containing} \\ \midrule
+Points & 9 \\
+Leaderboards & 10 \\
+\begin{tabular}[c]{@{}l@{}}Acheivements/\\ Badges\end{tabular} & 9 \\
+Levels & 6 \\
+Story & 6 \\
+Theme & 4 \\
+Clear Goals & 6 \\
+Feedback & 6 \\
+Rewards & 4 \\
+Progress & 4 \\
+Challenge & 7 \\ \bottomrule
+\end{tabular}
+\caption{Table containing the how many papers referenced certain gamification techniques}
+\label{tab:game1}
+\end{table}
+
+It is easity identifable that points, leaderboards and badges are the most commonly implemented techniques. This can be attributed to social media, as these three affordances are ideal for competition between friends. Interestingly, not very many papers referenced rewards, which may not be as strong of a motivator as competition.
+
+\begin{table}[h]
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Application} & \textbf{Papers} \\ \midrule
+Commerce &  1\\
+Education & 9 \\ 
+Health & 1 \\
+Organisational & 4 \\
+Sharing & 1 \\
+\begin{tabular}[c]{@{}l@{}}Sustainable\\ Consumption\end{tabular} & 1 \\
+Work & 4 \\
+Innovation \& Ideation & 2 \\
+Data Gathering & 1 \\ \bottomrule
+\end{tabular}
+\caption{Research papers broken down by system purpose of analysed implementations}
+\label{tab:game2}
+\end{table}
+
+True to the roots of gamification, many analysed systems were used in an educational manner. On the other hand, many other applications seem to be vastly unexplored, including commerce and work which are the contexts of our system -- hinting a gap in the market gamification for those areas. 
+
 \subsection{Critiques of Gamification}
 The application of gamification practises to digital applications is prevalent amongst business applications~\cite{gartner70}, nonetheless these practises have attracted criticisms. One view adopted by the video games industry is that gamification mistakenly portrays ``game-like'' properties, such as levels and scores as part of human behavioural complexity.~\cite{bogost2011gamification}. Moreover, there are negative ``exploitative'' connotations (discussed later) to word gamification in the business world; therefore businesses generally prefer the term ``motivational design'' instead. 
 
 The concept of creating ``sticky'' systems via gamification techniques can also present us with systems that affect user behaviour negatively. The McDonalds Monopoly sweep-stake is a well known example of this phenomenon. The promotion involves the collection of monopoly stickers containing prizes from purchasing certain food and drink (more stickers with larger meals). Paxman et al~\cite{mcdonalds} introduce examples where consumers change their purchasing habits in order to maximise the number of stickers they receive, linking these changes to childhood obesity~\cite{mcdonalds}. Several theories of motivation exist explaining these behaviours; however Zichermann~\cite{zichermann2011gamification} considers motivational factors as unruly, yet admits ``once you start giving someone a reward, you have to keep [them] in that reward loop forever''~\cite[p.~27]{zichermann2011gamification}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                                PURSUASIVE SYSTEMS
+%                                PURSUASIVE SYSTEMS                                       %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Persuasive Technologies/Captology}
 Capturing the attention of an person for the purposes of persuading them is a problem that sympathises with many. Businessmen, politicians and teachers alike are examples of such professions - more specifically professions where persuasion is an integral factor of their success. There exist a plethora of methods to achieve this, for instance salesman study marketing, politicians study public speaking, whilst those in the realm of technology study captology (the art of persuasive technologies).
@@ -208,7 +287,6 @@ Applying the concept of Fogg's taxonomy and motivator types, this innovation is 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                     SOLUTIONS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\clearpage{}
 \section{Survey of Technologies}
 We now turn our focus to the developed solutions. These technologies were chosen as they use a combination of NFC, gamification or persuasive technologies. The first group will contain implementations dedicated to a certain business; whereas the second will look at more generic applications. The chosen solutions were only those where \textbf{Loyalty} was the core function of the technology, `ecosystem-based' combined solutions were not considered.
 
@@ -230,7 +308,6 @@ In order to summarize these technologies later, each of the following should ans
       \caption{The technologies to be analysed: (a) Starbucks (b) Nandos (c) StampMe (d) Stamp}
 \end{figure}
 
-\newpage
 \subsection{Starbucks Mobile Application}
 \textbf{Overview}
 The Starbucks mobile application is designed as a digital-companion to the standard plastic loyalty card they provide. The application allows user's to either have a digital-only card or transition their physical cards onto the app, allowing customers to view, top up and pay with their balance.
@@ -297,10 +374,11 @@ We summarise the fidelity of the above systems into table \ref{tab:solutions}.
 \label{tab:solutions}
 \end{table}
 
-\newpage
-\section{Conclusions}
-Although there exists some general purpose loyalty solutions, they lack the polish and compared to the business-centric applications. On the other hand, those applications that are business-centric require users to install a mobile application for each loyalty card. Whereas large businesses have the resources to create such highly customised, high-fidelity systems, small businesses have little incentive to invest outside of paper-based solutions, mainly due to large development and implementation costs.
+Although there exists some general purpose loyalty solutions, they lack the polish and compared to the business-centric applications. On the other hand, those applications that are business-centric require users to install a mobile application for each loyalty card. Whereas large businesses have the resources to create such highly customised, high-fidelity systems, small businesses have little incentive to invest outside of paper-based solutions, mainly due to large development and implementation costs. As a result, they usually invest in the underused general-purpose solutions.
 
 NFC with social elements is an area vastly untapped by businesses, mainly due to the slow uptake of NFC by the market; moreover it seems like those loyalty systems using the proprietary stamping technology seem to be re-inventing the wheel instead of using the open standard.
 
-The opportunity of our proposed solution is to make an encompassing general-purpose solution that any business, big or small, can use to simply implement a loyalty program and push it out to any users of the application; collecting `stamps' using NFC. All loyalty schemes will be automatically incorporated into a gamification framework provided by the application, providing businesses a gamified loyalty scheme with minimal effort.
+\section{Conclusions}
+In this chapter we covered the concepts of NFC, gamification and persuasive technology in terms of research and current implementations. By analysing similar systems, we justify the need for our system as an encompassing general-purpose solution that any business, big or small, can use to simply implement a loyalty program and push it out to any users of the application; collecting `stamps' using NFC. All loyalty schemes will be automatically incorporated into a gamification framework provided by the application, providing businesses a gamified loyalty scheme with minimal effort.
+
+The next chapter discusses how we identified the system requirements and the process reaching a complete design for the system.
