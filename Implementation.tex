@@ -1,19 +1,28 @@
 \section{Introduction}
-In this chapter, we will present the different software components that were combined together to build our system. Problems with engineering and platform complexity will be highlighted, along with the process for solving them. The Android operating system brings many challenges with regards to development; however the goal is to explain those which are interesting when developing solutions relating to NFC. A basic knowledge of the Android platform will prove useful to fully understand this chapter.
-\section{Primary Technology}
-As explained earlier (blah blah reference), Stamped is to be developed on a popular mobile platform that supports the NFC standard, in this case Android. At this moment in time, developing a functional prototype for this system cannot be possible on another platform due to hardware and API limitations regarding NFC and Host Card Emulation. Expanding the solution to external platforms in the future will be difficult as it requires a rewrite with platform-specific code.
-\subsection{Software}
-Google provides a plethora of development tools in order to develop applications, one such tool is the development environment \emph{Android Studio}. This kit provides an Integrated Development Environment (IDE) in order to design, configure and program the system. Android programs are coded using \texttt{JAVA} -- therefore requiring an object oriented methodology. 
+In this chapter, we will present the different software components that were combined together to build our system. Problems with engineering and platform complexity will be highlighted, along with the process for solving them. The Android operating system brings many challenges with regards to development; however the goal is to explain those which are interesting when developing solutions relating to NFC. For a more complete understanding of the Android OS, the reader is referred to the \emph{Android Developers Website}~\cite{androidDeveloper}.
 
-Different Android devices run different versions of the operating system. Corresponding to each operating system version, there exists an accompanying Application Program Interface (API) that introduces new features to the ecosystem. We want our application to have the highest compatibility, but still contain the required features in order to satisfy the requirements. \emph{Android 4.4 KitKat} is selected as this is when Host Card Emulation was initially introduced into the platform; however, this means that approximately 45\%~\cite{Androidusagestats} of Android users have an appropriate version of operating system to run Stamped.
+\section{Primary Technology}
+As explained in chapter 3, Stamped is to be developed on a popular mobile platform that supports the NFC standard, in this case Android. At this moment in time, developing a functional prototype for this system is not possible on another platform due to hardware and API limitations regarding NFC and Host Card Emulation. Pushing this solution to other mobile platforms will be challenging as it requires a rewrite of platform-specific code.
+\subsection{Software}
+Google provides a plethora of development tools in order to develop applications, one such tool is the development environment \emph{Android Studio}. This kit provides an Integrated Development Environment (IDE) in order to design, configure and program the system. Android programs are coded using \texttt{Java} -- therefore requiring an object oriented methodology. 
+
+Different Android devices run different versions of the operating system. Corresponding to each operating system version, there exists an accompanying Application Program Interface (API) that introduces new features for developers to work with. We want our application to have the highest compatibility, but still contain the required features in order to satisfy the requirements. \emph{Android 4.4 KitKat} is selected as this is when Host Card Emulation (HCE) was initially introduced into the platform; however, only 45\%~\cite{Androidusagestats} of Android users have an appropriate version of the operating system to run Stamped.
 
 \subsection{Hardware}
-Complementing the above choice of software, we require accommodating Android devices for development. Two devices were selected, a smartphone and a tablet. The tablet will be used to implement the Stamped Manager application as businesses will ideally mount Tablets onto a table next to employees to use. On the other hand, the phone will be used for the Stamped application as this is the common device customers will be using the system with. Both devices run the latest \emph{Android 5.0 Lollipop} operating system - therefore supporting Host Card Emulation. 
+Complementing the above choice of software, we require accommodating Android devices for development. Two devices were selected, a smartphone and a tablet. The tablet will be used to implement the Stamped Manager application as businesses will ideally mount Tablets onto a table next to employees to use. On the other hand, the phone will be used for the Stamped application as this is the common device customers will be using the system with. As long as we chose devices that are able to run \emph{Android 4.4 KitKat} and above, we will be able to implement both sides of the system. 
 
 \section{Other Notable Resources}
 \subsection{Webserver with Database}
-To facilitate the backend of the system, we introduced a webserver/database backend in the design. A private webserver was purchased in order to facilitate the interactions with the database. The design database schema (Ref. SCHEMA) was imported into \emph{PHPMyAdmin} and PHP files were developed to interface between the Applications and Webserver (The rationale for this can be found in (Sec. \ref{sec:databasecommunication}))
+To facilitate the backend of the system, we introduced a webserver/database in the design. A private webserver was purchased in order to facilitate the interactions with the database. The schema we designed in chapter 3 (Also shown in Fig \ref{fig:finaldb2}) was imported into \emph{PHPMyAdmin} and PHP files were used to interface between the Applications and Webserver (The rationale for this can be found in (Sec. \ref{sec:databasecommunication}))
 
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=0.8\textwidth]{img/architecture.png}
+      \caption{Final database model that was imported into PHPMyAdmin}
+      \label{fig:finaldb2}
+\end{figure}
+
+\newpage
 \subsection{Android Debug Bridge (ADB)}
 Google provides a useful software for application testing called The Android Debug Bridge. This software interfaces with connected devices, providing the following features.
 \begin{itemize}
@@ -24,12 +33,11 @@ Google provides a useful software for application testing called The Android Deb
 
 ADB persists whenever there is a connection between Android Studio and a device, outputting feedback on its current state.
 
-\section{Implementation Complications}
+\section{Implementation Challenges}
 In this section a discussion follows the key implementation complexities whilst developing the system. Care was taken to abstract the problems of developing on the Android platform away from the issues.
 \subsection{Host Card Emulation}
-We earlier defined a need for an interaction architecture, identifying the Stamped application to interact using HCE as a smartcard. In order to do achieve this, a service will need to be created 
+We earlier defined a need for an interaction architecture, identifying the Stamped application to interact using Host Card Emulation (HCE) as a smartcard. In order to do achieve this, a service will need to be created 
 
-\newpage{}
 
 \subsubsection{Creating The Service}
 In order to provide functionality outside of an application, a `service' must be implemented. A service is simply a component of an application which constantly runs in the background -- Host Card Emulation is one such example of a component. In this case, the HCE service passively runs in the phone working memory, waiting to be triggered by an NFC Reader before sending a message. The purpose of having HCE in this form allows users to tap a reader to collect stamps \textbf{regardless of whether the application is open on the device or not}.
@@ -37,12 +45,12 @@ In order to provide functionality outside of an application, a `service' must be
 Android services must be carefully developed, as reckless design will lead to unwanted battery drain on the device. Fortunately Google provides a template class called \emph{HostApduService} for HCE, ensuring that the service is optimised for power consumption. 
 
 \subsubsection{Distinguishing Actions}
-A standard smartcard cannot tell what exactly is being read from it or when, a similar problem presents itself in the Host Card Service. The HCE service cannot atomically discriminate what message it needs to send, it can only react to an \texttt{onRead} event. To remediate this, we had to temporarily break the object oriented principle of encapsulation by introducing a shared global variable \texttt{NFCMessageType}. The message will allow the Manager application to discriminate what type of action we are broadcasting as a smartcard. Two such messages are adopted:
+A standard smartcard cannot tell what exactly is being read from it or when; a similar problem presents itself in the Host Card Service. The HCE service cannot atomically discriminate what message it needs to send, it can only react to an event when it detects an interaction. To remediate this, we had to temporarily break the object oriented principle of encapsulation by introducing a shared global variable \texttt{NFCMessageType}. The message will allow the Manager application to discriminate what type of action we are broadcasting as a smartcard. Two such messages are adopted:
 \begin{enumerate}
  \item Stamp mode - Broadcasts the user account id
   \item Reward mode - Broadcasts the user account id, the scheme id and the number of stamps to deduct in order to claim that reward
 \end{enumerate}
-Passively the device is on `Stamp' mode; however once a user selects a reward, they are presented with a popup (Fig. \ref{fig:extrinsicmotivation}) to tap the reader in order to claim their reward. During this time, the HCE service will be in `Reward' mode. As the popup is dismissed (from tapping the reader or having the user press cancel), we return back to Stamp mode. This technique underlies the systems ability to Understand Actions (Sec. \ref{sec:understanding}).
+Passively the device is on `Stamp' mode; however whilst a user is presented with a reward claim popup (Fig. \ref{fig:claimreward}), the HCE service will be in `Reward' mode. As the popup is dismissed (from tapping the reader or having the user press cancel), we return back to Stamp mode. This technique underlies the systems ability to Understand Actions, which will be discussed in Sec. \ref{sec:understanding}. A sequence diagram of how this mechanic works can be seen in Fig. \ref{fig:sequence}
 
 \begin{figure}[H]
  \centering
@@ -52,7 +60,7 @@ Passively the device is on `Stamp' mode; however once a user selects a reward, t
 \end{figure}
 
 \subsubsection{Reacting to OnRead}
-The \texttt{onRead} function is usually strictly used to send a message to a reader. However, the event affords many opportunities for us to implement user feedback mentioned in the design chapter. For instance, we announce to the user whenever they have tapped their device using audio feedback and a notification (Fig. \ref{fig:notification}). This novel solution binds the interaction feedback to the service; therefore these functions can run in the background.
+The \texttt{onRead} function is usually strictly used to send a message to a reader. However, the event affords many opportunities for us to implement user feedback (mentioned in the section \ref{sec:userfeedback}). For instance, we announce to the user whenever they have tapped their device using audio feedback and a notification (Fig. \ref{fig:notification}). This novel solution binds the interaction feedback to the service; therefore these functions can run in the background.
 
 \begin{figure}[H]
  \centering
@@ -62,21 +70,52 @@ The \texttt{onRead} function is usually strictly used to send a message to a rea
 \end{figure}
 
 \subsection{NFC Communications}
-Several presentation methods need to be put in place to facilitate NFC communication for our system. The messages being sent are simply hexadecimal plaintext; therefore there needs to be a way to send them in the correct format and carry some meaning to them. Here we demonstrate the principles to enable the Stamped Manager to understand messages.
+Several presentation methods need to be put in place to facilitate NFC communication for our system. The messages being sent are simply hexadecimal encoded text; therefore there needs to be a way to send them in the correct format and carry some meaning to them. Here we demonstrate the principles to enable the Stamped Manager to understand messages.
 
 \subsubsection{Understanding Actions}
 \label{sec:understanding}
-The Stamped Manager must be able to distinguish the types of messages it receives. There are two kinds that it may encounter: A stamp request and a reward claim. We earlier explained two modes on the host card that send differing amounts of information. Likewise, the Manager was setup in order to analyse message content. If only the accountID was received, we know that Stamped Manager needs to provide a stamp, however when is presented with more information, the system recognises that a customer is claiming a reward and deducts the amount of stamps from their account.
+The Stamped Manager must be able to distinguish the types of messages it receives. There are two kinds that it may encounter: a stamp request and a reward claim. We earlier explained two modes on the host card that send differing amounts of information. Likewise, the Manager was setup in order to analyse message content. If only the accountID was received, we know that Stamped Manager needs to provide a stamp, however when it is presented with more information, the system recognises that a customer is claiming a reward and deducts the amount of stamps from their account. A code snippet for this technique can be found below and a diagram can seen in Fig \ref{fig:sequence}.
+
+\begin{figure}[H]
+\begin{lstlisting}[language=Java]
+//INPUT: Plaintext message of type (1) email@user.com or (2) email@user.com|schemeID|amountToDeduct
+//OUTPUT: Increments stamp if only (1), deducts stamps for reward if (2)
+
+if(account.contains("|")) { //check to see if there exists more information
+ String[] accountM = account.split("\\|"); //split the message into its components
+    if(Integer.parseInt(accountM[1]) == currentScheme) { //check to see if the schemeID is the same as the current schemeID
+        Toast.makeText(getApplicationContext(), "Deducting " + accountM[2] + " from:" + accountM[0], Toast.LENGTH_LONG).show();
+        //send the reward claim command to the server
+        userFunctions.REWARD(getApplicationContext(), accountM[0], accountM[1],accountM[2]);
+    } else { //if the user tries to claim a reward for a different schemeID
+        recentTransactions.add("INCOMPATIBLE SCHEME"); //notify that the transaction is using an incompatible scheme
+    }
+} else { //if the message only contained the user id
+    Toast.makeText(getApplicationContext(), "Stamping " + account, Toast.LENGTH_LONG).show();
+    //send a Stamp command to the Server
+    userFunctions.STAMP(getApplicationContext(), currentScheme.toString(), getStampAmount());
+  }
+}
+
+\end{lstlisting}
+\end{figure}
+
+\begin{figure}[H]
+ \centering
+  \includegraphics[width=0.8\textwidth]{img/sequence.png}
+     \caption{A sequence diagram showing what information is sent between the two applications and how the manager can distinguish between actions}
+     \label{fig:sequence}
+\end{figure}
 
 \subsubsection{Avoiding the `Beam'}
-Android Beam is a feature of the Android platform to allow peer-peer data exchange over NFC~\cite{androidBeam}. Though it may have its uses (i.e Sending contacts, pictures), it can cause many problems for our system. Primarily, when two devices `tap', the operating system may mistake it for a `Beam' instead of a smartcard. This feature can be seen in (Fig. \ref{fig:androidBeam}); however we draw attention to the message which says `Touch to beam'. When this message appears, any input to the device other than that specific action is blocked. This will naturally clash with the Stamped Manager, which is expecting a host card message instead of a `Beam'
+Android Beam is a feature of the Android platform to allow peer-to-peer data exchange over NFC~\cite{androidBeam}. Though it may have its uses (i.e sending contacts, pictures), it can cause many problems for our system. Primarily, when two devices `tap', the operating system may mistake it for a `Beam' instead of a smartcard. This feature can be seen in Fig. \ref{fig:androidBeam}; however we draw attention to the message which says `Touch to beam'. When this message appears, any input to the device other than that specific action is blocked. This will naturally clash with the Stamped Manager, which is expecting a host card message instead of a `Beam'
 
 To solve this problem, we had to implement tight controls over how the Manager enables and disables its NFC chip, only enabling the chip whilst the reader is listening for a message from a host card.
 
 \begin{figure}[H]
  \centering
   \includegraphics[width=0.40\textwidth]{img/androidBeam.jpg}
-     \caption{A demonstration of Android beam}
+     \caption{A demonstration of Android beam. When both devices are brought together, the operating system recognises the interaction in the context of listening to music; therefore when the user touches the screen, it will beam the song to the other device.}
      \label{fig:androidBeam}
 \end{figure}
 
@@ -86,41 +125,47 @@ An Android device can emulate many smartcards simultaneously; however this is an
 \begin{figure}[H]
  \centering
   \includegraphics[width=0.40\textwidth]{img/aidfilter.png}
-     \caption{A schematic demonstrating software AID Filtering}
+     \caption{A schematic demonstrating software AID Filtering --- only smartcard B is accepted by the reader}
      \label{fig:aidfilter}
 \end{figure}
 
 \subsection{Database Communication}
 \label{sec:databasecommunication}
-A large part of the system interactions involve reporting back to the central database in order to sync `stampbooks' along with user profiles. We deduced during the design stage that only the Stamped Manager will have access to modify entries in the database, whereas the user Stamped application will only be able to read from it -- A discussion follows on the implementation of database communication for our system.
+A large part of the system interactions involve reporting back to the central database in order to sync `stampbooks' along with user profiles. We decided during the design stage that only the Stamped Manager will have access to modify entries in the database, whereas the user Stamped application will only be able to read from it -- A discussion follows on the implementation of database communication for our system.
 \subsubsection{PHP Interface}
-Interfacing directly with SQL is highly difficult and insecure in the Android platform. To solve this a new interface had to be made using PHP. In this architecture, applications send \texttt{GET} and \texttt{PUT} requests to the server, identifying actions by using `tags'. PHP in turn works as an intermediary, sending input to the database and providing output back to the Android application. Unfortunately this means that functions have to be written essentially twice, as they need to be written in JAVA to call a PHP, along with being written PHP to handle the input/output.
+Interfacing directly with SQL is highly difficult and insecure in the Android platform. To solve this a new interface had to be made using PHP. In this architecture, applications send \texttt{GET} and \texttt{PUT} requests to the server, identifying actions by using `tags'. PHP in turn works as an intermediary, sending input to the database and providing output back to the Android application. Unfortunately this means that functions have to be written essentially twice, as they need to be written in Java to call a PHP function, along with being written PHP to handle the input/output from the application.
 \subsubsection{Database Requests}
 %UI THREAD NONONO
-Requests to the database take time, and therefore must be threaded properly on mobile platforms. Android is very strict with regards requests what is allowed to run on the UI Thread. Requests that are recognised to be time consuming (i.e. Database requests) must be setup to run on a separate thread of execution. The adverse side effect of this requirement introduced the problem of race conditions in our UI.
+Requests to the database take time, and therefore must be threaded properly on mobile platforms. Android is very strict when it comes to running tasks on the UI Thread. Requests that are recognised to be time consuming (i.e. Database requests) must be setup to run on a separate thread of execution. The adverse side effect of this requirement introduced the problem of race conditions in our UI.
 \subsubsection{Dealing With Race Conditions in the UI}
-Consider the following example -- A user is syncing their `stampbook' to see how many stamps they have for each of their loyalty schemes. The request runs in a background thread; however it does not update the new stamp values as they have already been drawn on screen. We fix this by constantly updating the views every few seconds. This solution was not ideal, nonetheless it did remediate our race conditions.
+Consider the following example: a user is syncing their `stampbook' to see how many stamps they have for each of their loyalty schemes. The request runs in a background thread; however it does not force the display to update views with the new values. We fix this by constantly updating the views every few seconds. This solution was not ideal, nonetheless it did remediate our race conditions.
 
-\newpage
 
 \subsection{Internal Database Management}
 Storing information on Android can be non-intuitive. Basic credentials can be cached through plain text files; but in order to store the complex inter-relating data of our system. An internal database needs to be deployed to serve as local storage. Here we outline the novel challenges when working with both an internal and online database.
 \subsubsection{The Internal Database}
-Information gathered from querying the online database has to be stored somewhere, as a result, a \texttt{SQLite} database is setup with an identical schema. The idea is to have a clone of the parts relevant to the user (i.e. Account details, loyalty schemes, available rewards) of the online database stored locally. This vastly reduces the number of database calls that need to be made, as well as solving our information storage problem. On the other hand, it adds an extra layer of complexity as some SQL queries will still need to be run on the internal database \textbf{as well as} the online database. 
+Information gathered from querying the online database has to be stored somewhere, as a result, a \texttt{SQLite} database is setup with an identical schema to the online database. The idea is to have a clone of the parts that are relevant to the user (i.e. account details, loyalty schemes, available rewards) of the online database stored locally. This vastly reduces the number of database calls that need to be made, as well as solving our information storage problem. On the other hand, it adds an extra layer of complexity as some SQL queries will still need to be run on both the internal and online databases.
 %Syncing between Internal and Online backup
 \section{Delivery of Requirements}
 Here we will compare how well the implemented system delivered on our earlier requirements.
 
 \subsection{Overview}
-Here we show a high-level overview of how many MoSoCoW requirements were completed. 
-\begin{itemize}
-	\item Must Have -- 7/7
-	\item Should Have -- 3/6
-	\item Could Have -- 5/7
-	\item Wont Have -- 0/2
-\end{itemize}
+Here we show a high-level overview of how many MoSCoW requirements were completed. 
+\begin{table}[h]
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Type} & \textbf{Total} & \textbf{Completed} \\ \midrule
+Must Have     & 7              & 7                  \\
+Should Have   & 6              & 3                  \\
+Could Have    & 7              & 5                  \\
+Wont Have     & 2              & 0                   \\ \bottomrule
+\end{tabular}
+\end{table}
+
+We draw attention to the fact that more `Could Have' requirements were completed than the `Should Have' ones. In this case, the requirements selected for this implementation were those that would have the greatest impact on the system.  
 
 \subsection{Requirement Fulfillment}
+In its current implementation, the system fulfills the following requirements.
 \begin{description}[leftmargin=!,labelwidth=\widthof{\bfseries Medium}]
     \item[M1] \textbf{Sign-In \& Registration} \newline
         \textit{Users are able to sign-in to the system with their accounts}
@@ -169,9 +214,8 @@ Here we show a high-level overview of how many MoSoCoW requirements were complet
 \end{description}
 
 \newpage
-
 \section{Design Conformance}
-By following the criteria laid out in the design chapter, we managed to successfully produce two android applications which allow users to do the following:
+By following the design criteria laid out in chapter 3, we managed to successfully produce two android applications which allow users to do the following:
 
 \begin{enumerate}
 	\item Collect stamps for corporate loyalty schemes

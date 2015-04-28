@@ -4,7 +4,7 @@ This chapter will explore the state-of-the-art surrounding near field communicat
 It is anticipated that the main deliverable for this dissertation would be two Android mobile applications to facilitate the creation, deployment and management of a Loyalty Scheme. As such, we will need to discuss the pressing research, benefits and issues that encompass creation of `sticky' technologies on mobile platforms. 
 
 \section{Near Field Communication (NFC)}
-Near Field Communication (NFC) is an up-and-coming wireless technology that is currently being adopted in many contexts. Using this proximity-based standard, Two individuals can share data by placing NFC-enabled devices within a few inches of eachother.(see example in Figure 1.1). The standard was first established by Nokia, Philips and Sony in 2004 to define next generation radio frequency communications~\cite{nfcforum}.
+Near Field Communication (NFC) is an up-and-coming wireless technology that is currently being adopted in many contexts. Using this proximity-based standard, Two individuals can share data by placing NFC-enabled devices within a few inches of eachother (see example in Figure 2.1). The standard was first established by Nokia, Philips and Sony in 2004 to define next generation radio frequency communications~\cite{nfcforum}.
 \begin{figure}[H]
   \centering
     \includegraphics[width=1\textwidth]{img/visa-nfc-samsung.jpg}
@@ -20,10 +20,10 @@ NFC devices can adopt several different modes for different interactions~\cite{v
 A powered NFC device in this mode can read and write information stored in tags. Websites,  contacts and telephone numbers are commonly encoded in this manner. Upon reading the tag, it is the software's responsibility to act on the data in an appropriate manner~\cite{ecosystem}
 
 \paragraph{Host Card Emulation}
-NFC chips can be placed into Card Emulation mode in such a way (ISO 14443)~\cite{iso14443} that a card reader classifies it in the same manner as a smartcard. NFC devices can keep different cards in storage and switch between emulating them as required.~\cite{ecosystem}
+NFC chips can be placed into Card Emulation mode in such a way (ISO 14443)~\cite{iso14443} that a card reader classifies it in the same manner as a smartcard. NFC devices can keep different cards in storage and switch between emulating them as required~\cite{ecosystem}.
 
 \paragraph{Peer-to-Peer}
-Two powered NFC devices can bidirectionally share information between each other - for instance Bluetooth pairing information.~\cite{ecosystem}. In the case of a business environment, authentication can take place between two devices in the same bidirectional manner~\cite{iso18092} as a form of `secure log-in'.
+Two powered NFC devices can bidirectionally share information between each other - for instance Bluetooth pairing information~\cite{ecosystem}. In the case of a business environment, authentication can take place between two devices in the same bidirectional manner~\cite{iso18092} as a form of `secure log-in'.
 
 \clearpage{}
 \subsection{Applications of NFC}
@@ -31,15 +31,14 @@ Wireless communication technologies such as NFC have been around for some time. 
 \paragraph{\textbullet~Contactless Payment/Mobile Wallet}
 Starting from 2005, banks began integrating contactless chips inside debit/cards for payments under 20 USD/GBP (provided that the card reader supported contactless). From 2011, several large players such as Google, Apple and Paypal have developed mobile wallet applications, with Google and Apple primarily supporting NFC. Contactless cards too rely on the (ISO 14443)~\cite{iso14443} smartcard standard, complementing the previously discussed host card emulation, allowing an NFC chip to emulate an identical smartcard. Whereas, contactless debit and credit cards are prevalent, Google Wallet and Apple Pay are not available outside of the US Market, reasonings being ill-documented.
 \paragraph{\textbullet~Ticketing}
-Contactless ticketing has been available for a while, the Oyster card\cite{oystercosts} being an iconic example; nonetheless it has the issue of being a proprietary, locked down technology. In 2014, contactless cards were enabled within the system. Some argue that the goal of removing cash-payments was a driving factor of the acceptance of contactless ticketing~\cite{oystercosts}. Moreover, Host Card Emulation infers that mobile wallet applications would also be able to take advantage of these readers.
+Contactless ticketing has been available for a while, the Oyster card~\cite{oystercosts} being an iconic example; nonetheless it has the issue of being a proprietary, locked down technology. In 2014, contactless cards were enabled within the system. Some argue that the goal of removing cash-payments was a driving factor of accepting contactless ticketing~\cite{oystercosts}. Moreover, Host Card Emulation infers that mobile wallet applications would also be able to take advantage of these readers.
 \paragraph{\textbullet~Gaming}
-Game designers have always looked for ways to make video games more engaging. There are two methods in which they can implement NFC within their games, with the intent to make \textbf{Pervasive Games}. Such games expanding the play space into the player's ordinary social life~\cite{montola2005exploring}. Firstly, they may may use NFC to enrich collaboration and sociability. As an example, a study was done with two identical games, one with NFC and the other without\cite{wolbert2013evaluating}. Experiments were ran with two groups of individuals and findings showed a sharp increase in positive experience for NFC over touchscreen~\cite{wolbert2013evaluating} 
+Game designers have always looked for ways to make video games more engaging. There are two methods in which they can implement NFC within their games, with the intent to make \textbf{Pervasive Games}. Such games expanding the play space into the player's ordinary social life~\cite{montola2005exploring}. Firstly, they may may use NFC to enrich collaboration and sociability. As an example, a study was done with two identical games, one with NFC and the other without~\cite{wolbert2013evaluating}. Experiments were ran with two groups of individuals and findings showed a sharp increase in positive experience for NFC over touchscreen~\cite{wolbert2013evaluating} 
 
 The second and more recent way NFC can be implemented in video games is through physical-digital mappings. The \emph{Wii U}~\cite{nintendo} video game console contains an NFC chip in the controller, allowing users to use NFC enabled figurines on the controller. The result of tapping these devices together makes figurines appear within the console as in-game characters. 
 
 \paragraph{\textbullet~Loyalty Schemes}
 Loyalty using NFC is a topic that is still being explored by industry. As such, there are some different and creative implementations available. The original NFC Loyalty solutions came in the form of staff/store cards; however with the advent of NFC in mobile phones, pervasive solutions have been implemented such as \emph{Orange EAT}~\cite{orangeEat}.  In this scheme, consumers can tap specific NFC posters and tags in order to gain free rewards in the form of food and drink~\cite{orange}. Unfortuantely this promotion was unsuccessful as at the time only 200,000 customers had an NFC enabled device on Orange (less than 1\% of the total customer base)~\cite{orange}. There are several other prototype solutions available; nonetheless they were not properly adopted as NFC was not available on enough phones.
-\clearpage{}
 \subsection{NFC in Phones}
 NFC functionality in phones is actually not a new concept; phones with NFC chips have been around since 2006, but the adoption of NFC with manufacturers did not get popular until 2010 when a set of peer-peer standards were released to transfer useful information (contacts, URLs and bluetooth)~\cite{iso18092}. Since then, popularity took off, with IHS\footnote{IHS inc is a data and critical information provider for the technology industry} predicting that 939 million NFC enabled handsets would be shipped in 2018 (Fig. \ref{fig:smartphoneshipments})~\cite{IHSchart}.
 \begin{figure}[H]
@@ -72,12 +71,12 @@ In 2010 a survey was done of academic papers surrounding NFC \cite{nfctable}. Th
 
 It can be observed that a huge proportion of NFC literature (40\%) at the time was heavily focused on developing prototype applications and services. However, the specific types of applications were primarily `Reader-Writer' mode as this was just before the introduction of NFC peer-to-peer standards.
 
-The research identified that there was a gap in researching the development of NFC principles and theories or how to integrate such solutions into business models. As a result, we can argue that this business-orientated business gap was a factor for the slow adoption of NFC.
+The research identified that there was a gap in researching the development of NFC principles and theories or how to integrate such solutions into business models. As a result, we can argue that this business-orientated gap was a factor for the slow adoption of NFC.
 \subsection{Limitations of NFC}
 The key limiting factor of NFC for the longest time was the slow adoption rate by businesses and manufacturers. Contactless payment, the predominate form of NFC interaction depended on specific NFC card readers to enable contactless functionality; furthermore we cannot underestimate the amount of effort it takes to introduce a new billing option to a country.
 
 Analytics also show that NFC implementations are very fragmented with no apparent standard protocols~\cite{fragmentednfc}. This can be attributed to two reasons: the openness of the NFC platform encouraging different implementations and businesses wanting their own implementation for their own needs. For instance, in the example of loyalty schemes, each business might have a separate loyalty application which the customer needs to download and setup. These applications allow businesses to perform their own tracking and branding.
-\newpage
+
 \subsection{NFC vs Quick Reference Barcodes}
 \label{sec:NFCvsQR}
 Another technology considered for communication was \emph{Quick Reference (QR) Barcodes} (Fig. \ref{fig:qrcode}). These convey information through a 2D code matrix which can be scanned by a barcode reader or optical camera. A summary follows of the advantages and disadvantages of each technology~\cite{nfcadv}\cite{qradv}:
@@ -203,7 +202,7 @@ Data Gathering & 1 \\ \bottomrule
 True to the roots of gamification, many analysed systems were used in an educational manner. On the other hand, many other applications seem to be vastly unexplored, including commerce and work which are the contexts of our system -- hinting a gap in the market gamification for those areas. 
 
 \subsection{Critiques of Gamification}
-The application of gamification practises to digital applications is prevalent amongst business applications~\cite{gartner70}, nonetheless these practises have attracted criticisms. One view adopted by the video games industry is that gamification mistakenly portrays ``game-like'' properties, such as levels and scores as part of human behavioural complexity.~\cite{bogost2011gamification}. Moreover, there are negative ``exploitative'' connotations (discussed later) to word gamification in the business world; therefore businesses generally prefer the term ``motivational design'' instead. 
+The application of gamification practises to digital applications is prevalent amongst business applications~\cite{gartner70}, nonetheless these practises have attracted criticisms. One view adopted by the video games industry is that gamification mistakenly portrays ``game-like'' properties, such as levels and scores as part of human behavioural complexity~\cite{bogost2011gamification}. Moreover, there are negative ``exploitative'' connotations (discussed later) to word gamification in the business world; therefore businesses generally prefer the term ``motivational design'' instead. 
 
 The concept of creating ``sticky'' systems via gamification techniques can also present us with systems that affect user behaviour negatively. The McDonalds Monopoly sweep-stake is a well known example of this phenomenon. The promotion involves the collection of monopoly stickers containing prizes from purchasing certain food and drink (more stickers with larger meals). Paxman et al~\cite{mcdonalds} introduce examples where consumers change their purchasing habits in order to maximise the number of stickers they receive, linking these changes to childhood obesity~\cite{mcdonalds}. Several theories of motivation exist explaining these behaviours; however Zichermann~\cite{zichermann2011gamification} considers motivational factors as unruly, yet admits ``once you start giving someone a reward, you have to keep [them] in that reward loop forever''~\cite[p.~27]{zichermann2011gamification}.
 
@@ -252,14 +251,14 @@ These motivators usually offer some sort of reward such as money to entice the u
 Persuasive technologies afford the use of any combination of these to develop systems. We discuss an example in Sec. \ref{sec:piano}
 
 \subsection{Fogg's Taxonomy}
-Fogg characterises each persuasive technology by \emph{functional roles}: tools, media or social actors.~\cite{fogg1998persuasive}, of which technologies can identify as one or several of these categories. The proposed triad is designed to model the way in which users see and react to the following:
+Fogg characterises each persuasive technology by \emph{functional roles}: tools, media or social actors~\cite{fogg1998persuasive}, of which technologies can identify as one or several of these categories. The proposed triad is designed to model the way in which users see and react to the following:
 
 \paragraph{Tools}
-These technologies are designed to make people's jobs easier\cite{fogg}. For example a wizard or an Out of Box Experience (OOBE) can give users direction regarding the completion of a specific or complex user task.
+These technologies are designed to make people's jobs easier~\cite{fogg}. For example a wizard or an Out of Box Experience (OOBE) can give users direction regarding the completion of a specific or complex user task.
 \paragraph{Media}
 Media-centric technologies are designed to provide users a platform to create experiences that develop, teach or enforce a behaviour. These can come in the form of games, interactive systems or stories;  the best examples however are simulations. Simulations place the users in a specific environment where they must interact with rules of the system in order to hone a required set of behaviours; such behaviours can be for the purposes of testing or real-life skills. 
 \paragraph{Social Actors}
-With the introduction of social actors, computer systems can now influence users using social cues. Actors can be persuasive by giving a human face to positive feedback, modeling an inded behavior or provide moral support to the user~\cite{fogg}. The \emph{Microsoft Paperclip} is a famous example of a social actor to teach users how to use Microsoft Office. Research in this area is constantly developing as it's difficult to build `human' characters without entering ``uncanny valley''.
+With the introduction of social actors, computer systems can now assist users using social cues. Actors can be persuasive by giving a human face to positive feedback, modeling an inded behavior or provide moral support to the user~\cite{fogg}. The \emph{Microsoft Paperclip} is a famous example of a social actor to teach users how to use Microsoft Office. Research in this area is constantly developing as it's difficult to build `human' characters without entering ``uncanny valley''.
  
 %A social actor can be persuasive byreddit.com
 % Rewarding people with positive
@@ -356,6 +355,7 @@ Once a user `joins' a business' loyalty scheme, it is added to a list of their c
 
 \textbf{Are there any subtle persuasion techniques employed?}
 These applications attempt to clone a real Stampcard. This is considered a use of extrinsic motivation where users may not necessarily want to buy a coffee but want to complete their stamp card. 
+\newpage
 
 \subsection{Summary of Solutions}
 We summarise the fidelity of the above systems into table \ref{tab:solutions}.

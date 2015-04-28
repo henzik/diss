@@ -187,6 +187,7 @@ The benefits (+) and drawbacks (-) of this configuration are:
 \emph{Loyalty Stampbook using HCE} was selected on the merit of its positives. Primarily, not requiring internet access from the customer, the ability to collect stamps without having the application open and its emphasis on security. On the other hand, it makes the implementation challenging, requiring more logic to support the two-way communications. Nonetheless, we expect that this model will ultimately benefit the system by making it easier to use and understand for users.
 
 \subsubsection{User Feedback}
+\label{sec:userfeedback}
 Requirement M7 identifies the need for user feedback in both applications when stamping. Mobile operating systems provide several design patterns to accommodate interaction feedback, for instance: audio, notifications and haptic/vibration. For the Loyalty Stampbook, notifications were selected as the \textbf{primary} method as users may want to keep their phones on silent. Within the Loyalty Manager, responses can be presented as a simple popup\footnote{`Toasts' are used to achieve this in Android as a form of simple feedback}. Moreover, we integrate an audible sound whenever two NFC devices make contact; however users will be able to mute this feature if the device is placed on silent. 
 
 \subsection{Design Methodology}
@@ -342,7 +343,7 @@ The following features were identified to be reflected as table attributes:
 \newpage
 \subsubsection{Final Database Schema}
 Building upon the initial ERD and incorporating the above features identified into the schema, a final database schema is proposed  (Fig. \ref{fig:finaldb}). 
-
+\label{sec:dbSchema}
 \begin{figure}[H]
   \centering
     \includegraphics[width=0.8\textwidth]{img/architecture.png}
